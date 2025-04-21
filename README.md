@@ -126,9 +126,8 @@ Feel free to contribute to this training material by:
 ## 🆘 Need Help?
 
 If you get stuck or have questions:
-1. Check the exercise-specific README files
-2. Look for comments in the notebooks
-3. Review the example workflows in `.github/workflows/`
-4. Open an issue in this repository
+1. Look for comments in the notebooks
+2. Review the example workflows in `.github/workflows/`
+3. Open an issue in this repository
 
 Happy learning! 🎉 
