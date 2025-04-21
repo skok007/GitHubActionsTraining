@@ -3,8 +3,14 @@ name: Basic Workflow
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'exercises/01-basic-workflow/**'
+      - '.github/workflows/01-basic-workflow.yml'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'exercises/01-basic-workflow/**'
+      - '.github/workflows/01-basic-workflow.yml'
 
 permissions:
   contents: read
