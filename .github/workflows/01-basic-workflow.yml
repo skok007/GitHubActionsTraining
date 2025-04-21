@@ -27,23 +27,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r exercises/01-basic-workflow/requirements.txt
           
-      - name: Run tests
+      - name: Run tests with coverage
         run: |
           cd exercises/01-basic-workflow
-          pytest test_calculator.py -v --cov=. --cov-report=xml
+          pytest test_calculator.py -v --cov=. --cov-report=xml --cov-report=term
           
-      - name: Print test summary
-        run: |
-          echo "Tests completed successfully!"
-          echo "Branch name: ${{ github.ref }}"
-          echo "Commit SHA: ${{ github.sha }}"
-
-      - name: Upload test results
-        if: always()
+      - name: Upload coverage report
         uses: actions/upload-artifact@v3
         with:
-          name: test-results
+          name: coverage-report
           path: exercises/01-basic-workflow/coverage.xml
+          retention-days: 30
 
   lint:
     name: Code Quality
