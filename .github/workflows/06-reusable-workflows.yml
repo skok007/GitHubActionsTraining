@@ -1,0 +1,66 @@
+name: Reusable Workflows Example
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy to"
+        required: true
+        default: "staging"
+        type: choice
+        options:
+          - staging
+          - production
+
+# Define permissions at the workflow level
+permissions:
+  contents: read
+  packages: write
+  actions: read
+
+jobs:
+  # This job uses a composite action for Node.js setup
+  setup-environment:
+    name: Setup Environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Use the composite action for Node.js setup
+      - name: Setup Node.js Environment
+        uses: ./.github/actions/node-setup
+        with:
+          node-version: '18'
+          cache-deps: 'true'
+      
+      - name: Verify Setup
+        run: |
+          node --version
+          npm --version
+
+  # This job calls a reusable workflow for building and testing
+  build-and-test:
+    name: Build and Test
+    needs: setup-environment
+    uses: ./.github/workflows/build.yml
+    with:
+      node-version: '18'
+      test-command: 'npm run test:ci'
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # This job demonstrates another reusable workflow for deployment
+  deploy:
+    name: Deploy
+    needs: build-and-test
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: ${{ github.event.inputs.environment || 'staging' }}
+      deploy-command: 'npm run deploy'
+    secrets:
+      DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }} 

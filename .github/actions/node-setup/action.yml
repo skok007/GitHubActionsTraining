@@ -1,0 +1,24 @@
+name: 'Node.js Setup'
+description: 'Sets up Node.js with caching'
+
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: true
+  cache-deps:
+    description: 'Whether to cache dependencies'
+    required: false
+    default: 'true'
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: ${{ inputs.cache-deps }}
+    
+    - name: Install dependencies
+      run: npm ci 

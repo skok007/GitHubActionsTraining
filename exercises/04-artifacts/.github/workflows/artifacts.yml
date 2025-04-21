@@ -1,0 +1,87 @@
+name: Generate and Share Reports
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  generate-reports:
+    name: Generate Reports
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Generate reports
+      run: |
+        python report_generator.py
+        
+    - name: Upload reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: generated-reports
+        path: reports/
+        retention-days: 5
+        
+  analyze-reports:
+    name: Analyze Reports
+    needs: generate-reports
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Download reports
+      uses: actions/download-artifact@v3
+      with:
+        name: generated-reports
+        path: downloaded-reports
+        
+    - name: Analyze reports
+      run: |
+        echo "Analyzing downloaded reports:"
+        ls -la downloaded-reports
+        echo "Report contents:"
+        cat downloaded-reports/summary.txt
+        
+  cleanup-reports:
+    name: Cleanup Old Reports
+    needs: analyze-reports
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Delete old artifacts
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const response = await github.rest.actions.listArtifactsForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          
+          for (const artifact of response.data.artifacts) {
+            if (artifact.name === 'generated-reports' && artifact.created_at < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)) {
+              console.log('Deleting artifact:', artifact.name, 'created at:', artifact.created_at);
+              await github.rest.actions.deleteArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: artifact.id,
+              });
+            }
+          } 

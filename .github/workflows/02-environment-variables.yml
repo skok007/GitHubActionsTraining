@@ -1,0 +1,105 @@
+name: Environment Variables Example
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  print-env-vars:
+    name: Print Environment Variables
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Print default environment variables
+      run: |
+        echo "GITHUB_WORKFLOW: $GITHUB_WORKFLOW"
+        echo "GITHUB_REF: $GITHUB_REF"
+        echo "GITHUB_SHA: $GITHUB_SHA"
+        echo "GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
+        echo "GITHUB_ACTOR: $GITHUB_ACTOR"
+        echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
+    
+    - name: Print custom environment variables
+      env:
+        CUSTOM_VAR: "This is a custom variable"
+        ANOTHER_VAR: "Another custom variable"
+      run: |
+        echo "CUSTOM_VAR: $CUSTOM_VAR"
+        echo "ANOTHER_VAR: $ANOTHER_VAR"
+    
+    - name: Print context variables
+      run: |
+        echo "github.event_name: ${{ github.event_name }}"
+        echo "github.ref: ${{ github.ref }}"
+        echo "github.actor: ${{ github.actor }}"
+        echo "github.repository: ${{ github.repository }}"
+        echo "github.workspace: ${{ github.workspace }}"
+    
+    - name: Print workflow input
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        echo "Selected environment: ${{ github.event.inputs.environment }}"
+  
+  use-secrets:
+    name: Use Secrets
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'staging' }}
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use repository secrets
+      run: |
+        echo "Using repository secret: ${{ secrets.REPO_SECRET }}"
+    
+    - name: Use environment secrets
+      run: |
+        echo "Using environment secret: ${{ secrets.ENV_SECRET }}"
+    
+    - name: Use organization secrets
+      run: |
+        echo "Using organization secret: ${{ secrets.ORG_SECRET }}"
+  
+  pass-variables:
+    name: Pass Variables Between Jobs
+    needs: [print-env-vars, use-secrets]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set output variable
+      id: set-output
+      run: |
+        echo "output_var=This is an output variable" >> $GITHUB_OUTPUT
+    
+    - name: Use output variable
+      run: |
+        echo "Output from previous step: ${{ steps.set-output.outputs.output_var }}"
+    
+    - name: Create artifact with variables
+      run: |
+        echo "GITHUB_WORKFLOW: $GITHUB_WORKFLOW" > variables.txt
+        echo "GITHUB_REF: $GITHUB_REF" >> variables.txt
+        echo "GITHUB_SHA: $GITHUB_SHA" >> variables.txt
+        echo "CUSTOM_VAR: This is a custom variable" >> variables.txt
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: variables
+        path: variables.txt 

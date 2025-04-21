@@ -1,0 +1,13 @@
+{
+  "metadata": {
+    "generated_at": "2025-04-21T10:33:21.224577",
+    "report_type": "json"
+  },
+  "data": {
+    "metrics": {
+      "users": 1000,
+      "active_users": 750,
+      "conversion_rate": 0.25
+    }
+  }
+}

@@ -1,0 +1,48 @@
+name: Reusable Build and Test
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
+        description: 'Node.js version to use'
+      test-command:
+        required: false
+        type: string
+        default: 'npm test'
+        description: 'Command to run tests'
+    secrets:
+      NPM_TOKEN:
+        required: true
+        description: 'NPM token for publishing'
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@myorg'
+          token: ${{ secrets.NPM_TOKEN }}
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests
+        run: ${{ inputs.test-command }}
+      
+      - name: Build
+        run: npm run build
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: dist/ 
