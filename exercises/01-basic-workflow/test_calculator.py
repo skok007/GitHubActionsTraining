@@ -1,6 +1,6 @@
 import pytest
 
-from calculator import add, divide, multiply, subtract
+from calculator import add, divide, multiply, subtract, square
 
 
 def test_add():
@@ -30,3 +30,9 @@ def test_divide():
 def test_divide_by_zero():
     with pytest.raises(ValueError):
         divide(1, 0)
+
+
+def test_square():
+    assert square(2) == 4
+    assert square(-2) == 4
+    assert square(0) == 0
