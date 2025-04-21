@@ -53,4 +53,8 @@ coverage.xml
 dmypy.json
 
 # Project specific
-test.txt 
+test.txt
+
+# AWS credentials
+assume-role-output.json
+aws-secrets.txt 
