@@ -13,4 +13,7 @@ types-setuptools==69.1.0.20240310
 
 # Documentation
 sphinx==7.2.1
-sphinx-rtd-theme==2.0.0 
+sphinx-rtd-theme==2.0.0
+
+# Security tools
+gitleaks==8.18.2 

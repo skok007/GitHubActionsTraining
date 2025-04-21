@@ -12,7 +12,9 @@ This repository contains training materials for learning GitHub Actions, includi
 - Required AWS services:
   - S3 bucket for deployment
   - IAM role with appropriate permissions
+  - Secrets Manager for secret rotation
   - Access to AWS credentials
+- Java 17 or higher (for OWASP Dependency Check)
 
 ## Notebook Creation System
 
@@ -68,6 +70,10 @@ The training materials include hands-on exercises for learning GitHub Actions:
    - Implementing security best practices
    - Using GitHub's security features
    - AWS integration for secure deployments
+   - OWASP Dependency Check for vulnerability scanning
+   - Gitleaks for secret detection
+   - CodeQL for code analysis
+   - Secret rotation with AWS Secrets Manager
 
 6. **Reusable Workflows and Composite Actions** (`06-reusable-workflows.ipynb`)
    - Creating reusable workflows
@@ -92,6 +98,9 @@ Each exercise includes a Jupyter notebook with explanations and examples, along 
 ├── src/                    # Source code
 ├── tests/                  # Test files
 ├── requirements.txt        # Python dependencies
+├── suppression.xml         # OWASP Dependency Check suppressions
+├── aws-secrets.txt         # AWS configuration template
+├── aws-permissions.md      # AWS permissions documentation
 └── README.md              # This file
 ```
 
@@ -127,9 +136,12 @@ Demonstrates artifact handling:
 ### 5. Secrets and Security (.github/workflows/05-secrets-security.yml)
 Shows security best practices:
 - Secret management
-- Security scanning
-- AWS integration
+- Security scanning with OWASP Dependency Check
+- Secret detection with Gitleaks
+- Code analysis with CodeQL
+- AWS integration with OIDC
 - Environment protection
+- Secret rotation with AWS Secrets Manager
 
 ### 6. Reusable Workflows (.github/workflows/06-reusable-workflows.yml)
 Demonstrates workflow reuse:
@@ -138,6 +150,51 @@ Demonstrates workflow reuse:
 - Workflow composition
 - Parameter passing
 - Secret handling
+
+## Security Tools
+
+The project includes several security tools to enhance your security posture:
+
+### OWASP Dependency Check
+- Identifies project dependencies
+- Checks for known vulnerabilities
+- Generates HTML reports
+- Configurable CVSS threshold
+- False positive suppression
+
+### Gitleaks
+- Detects hardcoded secrets
+- Scans for API keys, passwords, and tokens
+- Prevents accidental secret commits
+- Open-source version
+
+### CodeQL
+- Semantic code analysis
+- Identifies security vulnerabilities
+- Language-specific analysis
+- GitHub's security engine
+
+## AWS Integration
+
+The project demonstrates secure AWS integration:
+
+### OIDC Authentication
+- Short-lived credentials
+- No stored secrets
+- Role-based access
+- Secure authentication
+
+### Secrets Manager
+- Centralized secret storage
+- Automated secret rotation
+- Access control
+- Audit logging
+
+### S3 Deployment
+- Secure file storage
+- Environment-specific deployments
+- Access control
+- Versioning
 
 ## Testing
 
@@ -198,7 +255,11 @@ The artifacts workflow demonstrates several key concepts:
    ```bash
    pip install -r requirements.txt
    ```
-3. Start with Exercise 1 and work through each notebook sequentially
+3. Set up AWS resources (for Exercise 5):
+   - Create an S3 bucket
+   - Set up an IAM role with appropriate permissions
+   - Configure AWS credentials
+4. Start with Exercise 1 and work through each notebook sequentially
 
 ## Contributing
 
