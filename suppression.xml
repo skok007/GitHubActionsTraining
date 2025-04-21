@@ -10,7 +10,7 @@
     <!-- Moment.js vulnerabilities -->
     <suppress>
         <notes>False positive for moment.js - ReDoS vulnerability not applicable in our context</notes>
-        <packageUrl regex="true">pkg:npm/moment@2\.19\..*</packageUrl>
+        <packageUrl regex="true">pkg:npm/moment@2\.30\..*</packageUrl>
         <cve>CVE-2022-24785</cve>
     </suppress>
     
@@ -24,35 +24,35 @@
     <!-- JWT vulnerabilities -->
     <suppress>
         <notes>Known issue in JWT library - Will be addressed in next sprint</notes>
-        <packageUrl regex="true">pkg:npm/jsonwebtoken@8\.5\..*</packageUrl>
+        <packageUrl regex="true">pkg:npm/jsonwebtoken@9\.0\..*</packageUrl>
         <cve>CVE-2022-23529</cve>
     </suppress>
 
     <!-- WebSocket vulnerabilities -->
     <suppress>
         <notes>WebSocket vulnerability only affects development environment</notes>
-        <packageUrl regex="true">pkg:npm/ws@7\.4\..*</packageUrl>
+        <packageUrl regex="true">pkg:npm/ws@8\.16\..*</packageUrl>
         <vulnerabilityName>CWE-400</vulnerabilityName>
     </suppress>
 
     <!-- Node-sass vulnerabilities -->
     <suppress>
         <notes>Node-sass vulnerabilities only affect build process, not runtime</notes>
-        <packageUrl regex="true">pkg:npm/node-sass@4\.7\..*</packageUrl>
+        <packageUrl regex="true">pkg:npm/node-sass@9\.0\..*</packageUrl>
         <cve>CVE-2020-24025</cve>
     </suppress>
 
     <!-- Socket.io vulnerabilities -->
     <suppress>
         <notes>Socket.io vulnerability not applicable in our usage pattern</notes>
-        <packageUrl regex="true">pkg:npm/socket.io@1\.7\..*</packageUrl>
+        <packageUrl regex="true">pkg:npm/socket.io@4\.7\..*</packageUrl>
         <cve>CVE-2020-36048</cve>
     </suppress>
 
     <!-- Webpack vulnerabilities -->
     <suppress>
         <notes>Webpack vulnerabilities only affect development environment</notes>
-        <packageUrl regex="true">pkg:npm/webpack@3\.5\..*</packageUrl>
+        <packageUrl regex="true">pkg:npm/webpack@5\.90\..*</packageUrl>
         <cve>CVE-2021-40536</cve>
     </suppress>
 
