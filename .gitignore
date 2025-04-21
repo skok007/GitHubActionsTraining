@@ -42,6 +42,8 @@ htmlcov/
 coverage.xml
 *.cover
 .hypothesis/
+test.txt
+test-deploy/
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -55,6 +57,11 @@ dmypy.json
 # Project specific
 test.txt
 
-# AWS credentials
+# AWS credentials and sensitive files
 assume-role-output.json
-aws-secrets.txt 
+aws-secrets.txt
+exercises/05-deployment/aws/assume-role-output.json
+exercises/05-deployment/aws/use-role.sh
+exercises/05-deployment/aws/setup-github.sh
+**/node_modules/
+package-lock.json 

@@ -2,31 +2,35 @@ name: Basic Workflow
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
+
+permissions:
+  contents: read
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.10'
           cache: 'pip'
           
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r exercises/01-basic-workflow/requirements.txt
           
       - name: Run tests
         run: |
-          python -m pytest tests/ --cov=src/ --cov-report=xml
+          cd exercises/01-basic-workflow
+          pytest test_calculator.py -v --cov=. --cov-report=xml
           
       - name: Print test summary
         run: |
@@ -39,17 +43,17 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: test-results/
+          path: exercises/01-basic-workflow/coverage.xml
 
   lint:
     name: Code Quality
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.10'
     
@@ -60,10 +64,12 @@ jobs:
     
     - name: Check code formatting
       run: |
+        cd exercises/01-basic-workflow
         black --check .
         isort --check-only .
     
     - name: Lint with flake8
       run: |
+        cd exercises/01-basic-workflow
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --statistics 
