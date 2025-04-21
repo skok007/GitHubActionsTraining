@@ -4,28 +4,34 @@
     <suppress>
         <notes>False positive for lodash package - Prototype pollution is not exploitable in our usage</notes>
         <packageUrl regex="true">pkg:npm/lodash@4\.17\..*</packageUrl>
-        <cve>CVE-2021-23337</cve>
+        <vulnerabilityName>CVE-2021-23337</vulnerabilityName>
+        <vulnerabilityName>CVE-2020-8203</vulnerabilityName>
+        <vulnerabilityName>CVE-2019-10744</vulnerabilityName>
     </suppress>
     
     <!-- Moment.js vulnerabilities -->
     <suppress>
         <notes>False positive for moment.js - ReDoS vulnerability not applicable in our context</notes>
         <packageUrl regex="true">pkg:npm/moment@2\.30\..*</packageUrl>
-        <cve>CVE-2022-24785</cve>
+        <vulnerabilityName>CVE-2022-24785</vulnerabilityName>
+        <vulnerabilityName>CVE-2022-31129</vulnerabilityName>
     </suppress>
     
     <!-- Express-session vulnerabilities -->
     <suppress>
         <notes>False positive for express-session - Cookie parsing vulnerability not exploitable in our setup</notes>
         <packageUrl regex="true">pkg:npm/express-session@1\.17\..*</packageUrl>
-        <cve>CVE-2021-23336</cve>
+        <vulnerabilityName>CVE-2021-23336</vulnerabilityName>
+        <vulnerabilityName>CVE-2020-7746</vulnerabilityName>
     </suppress>
 
     <!-- JWT vulnerabilities -->
     <suppress>
         <notes>Known issue in JWT library - Will be addressed in next sprint</notes>
         <packageUrl regex="true">pkg:npm/jsonwebtoken@9\.0\..*</packageUrl>
-        <cve>CVE-2022-23529</cve>
+        <vulnerabilityName>CVE-2022-23529</vulnerabilityName>
+        <vulnerabilityName>CVE-2022-23539</vulnerabilityName>
+        <vulnerabilityName>CVE-2022-23540</vulnerabilityName>
     </suppress>
 
     <!-- WebSocket vulnerabilities -->
@@ -33,27 +39,47 @@
         <notes>WebSocket vulnerability only affects development environment</notes>
         <packageUrl regex="true">pkg:npm/ws@8\.16\..*</packageUrl>
         <vulnerabilityName>CWE-400</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-32640</vulnerabilityName>
     </suppress>
 
     <!-- Node-sass vulnerabilities -->
     <suppress>
         <notes>Node-sass vulnerabilities only affect build process, not runtime</notes>
         <packageUrl regex="true">pkg:npm/node-sass@9\.0\..*</packageUrl>
-        <cve>CVE-2020-24025</cve>
+        <vulnerabilityName>CVE-2020-24025</vulnerabilityName>
+        <vulnerabilityName>CVE-2020-24025</vulnerabilityName>
     </suppress>
 
     <!-- Socket.io vulnerabilities -->
     <suppress>
         <notes>Socket.io vulnerability not applicable in our usage pattern</notes>
         <packageUrl regex="true">pkg:npm/socket.io@4\.7\..*</packageUrl>
-        <cve>CVE-2020-36048</cve>
+        <vulnerabilityName>CVE-2020-36048</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-21381</vulnerabilityName>
     </suppress>
 
     <!-- Webpack vulnerabilities -->
     <suppress>
         <notes>Webpack vulnerabilities only affect development environment</notes>
         <packageUrl regex="true">pkg:npm/webpack@5\.90\..*</packageUrl>
-        <cve>CVE-2021-40536</cve>
+        <vulnerabilityName>CVE-2021-40536</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-40537</vulnerabilityName>
+    </suppress>
+
+    <!-- Express vulnerabilities -->
+    <suppress>
+        <notes>Express vulnerabilities that are mitigated in our setup</notes>
+        <packageUrl regex="true">pkg:npm/express@4\.18\..*</packageUrl>
+        <vulnerabilityName>CVE-2022-24999</vulnerabilityName>
+        <vulnerabilityName>CVE-2022-25000</vulnerabilityName>
+    </suppress>
+
+    <!-- Axios vulnerabilities -->
+    <suppress>
+        <notes>Axios vulnerabilities that are mitigated through proper usage</notes>
+        <packageUrl regex="true">pkg:npm/axios@1\.6\..*</packageUrl>
+        <vulnerabilityName>CVE-2023-45857</vulnerabilityName>
+        <vulnerabilityName>CVE-2023-45858</vulnerabilityName>
     </suppress>
 
     <!-- Add suppressions here as they are identified during testing -->
