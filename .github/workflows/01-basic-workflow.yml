@@ -30,7 +30,7 @@ jobs:
       - name: Run tests with coverage
         run: |
           cd exercises/01-basic-workflow
-          pytest test_calculator.py -v --cov=. --cov-report=xml --cov-report=term
+          python -m pytest test_calculator.py -v --cov=. --cov-report=xml --cov-report=term
           
       - name: Upload coverage report
         uses: actions/upload-artifact@v3
@@ -50,20 +50,16 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
+        cache: 'pip'
     
-    - name: Install linting tools
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 black isort
+        pip install -r exercises/01-basic-workflow/requirements.txt
     
-    - name: Check code formatting
+    - name: Run linting
       run: |
         cd exercises/01-basic-workflow
-        black --check .
-        isort --check-only .
-    
-    - name: Lint with flake8
-      run: |
-        cd exercises/01-basic-workflow
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 . --count --exit-zero --max-complexity=10 --statistics 
+        black . --check
+        isort . --check-only
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics 
